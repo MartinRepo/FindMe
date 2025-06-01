@@ -1,0 +1,61 @@
+# =====================================
+# Rust / Cargo
+# =====================================
+/target/
+**/*.rs.bk
+
+# Cargo package manager
+Cargo.lock
+.cargo/
+
+# Build output
+/target/
+debug/
+release/
+*.dSYM/
+*.rlib
+
+# Rust analyzer / IDE
+/.idea/
+/.vscode/
+*.iml
+
+# macOS
+.DS_Store
+
+# Logs / temp files
+*.log
+*.tmp
+*.swp
+*.swo
+
+# Test output
+/tests/output/
+*.profraw
+
+# Coverage / benchmarking
+htmlcov/
+coverage/
+target/criterion/
+
+# By-products of 'cargo doc'
+/doc/
+
+# Backup files
+*~
+
+# Binary / artifacts
+*.exe
+*.dll
+*.so
+*.dylib
+*.bin
+
+# Environment
+.env
+.env.*
+
+# Ignore generated files from dev tools
+node_modules/
+npm-debug.log
+dist/
