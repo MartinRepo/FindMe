@@ -1,13 +1,13 @@
 [package]
-name = "martinrepo-grrs"
-version = "0.1.0"
+name = "martinrepo-findr"
+version = "0.2.0"
 edition = "2024"
 authors = ["chi.xing2025@gmail.com"]
 license = "MIT OR Apache-2.0"
 description = "A tool to search files"
 readme = "README.md"
-homepage = "https://github.com/MartinRepo/grrs"
-repository = "https://github.com/MartinRepo/grrs"
+homepage = "https://github.com/MartinRepo/FindR"
+repository = "https://github.com/MartinRepo/FindR"
 keywords = ["cli", "search", "demo"]
 categories = ["command-line-utilities"]
 

@@ -1,13 +1,16 @@
 use assert_cmd::prelude::*; // Add methods on commands
 use predicates::prelude::*; // Used for writing assertions
 use std::process::Command; // Run programs
-use assert_fs::prelude::*;
+// use assert_fs::prelude::*;
 use assert_fs::fixture::FileWriteStr;
+use std::io::Cursor;
 
 #[test]
 fn find_a_match() {
     let mut result = Vec::new();
-    grrs::find_matches("lorem ipsum\ndolor sit amet", "lorem", &mut result);
+    let input = "lorem ipsum\ndolor sit amet";
+    let cursor = Cursor::new(input);
+    grrs::find_matches(cursor, "lorem", &mut result);
     assert_eq!(result, b"lorem ipsum\n");
 }
 
