@@ -1,21 +1,23 @@
 [package]
-name = "martinrepo-findr"
-version = "0.2.0"
-edition = "2024"
+name = "findu"
+version = "0.1.0"
+edition = "2021"
 authors = ["chi.xing2025@gmail.com"]
 license = "MIT OR Apache-2.0"
-description = "A tool to search files"
+description = "A terminal tool to show daily tech work fortune"
 readme = "README.md"
-homepage = "https://github.com/MartinRepo/FindR"
-repository = "https://github.com/MartinRepo/FindR"
-keywords = ["cli", "search", "demo"]
+homepage = "https://github.com/MartinRepo/findu"
+repository = "https://github.com/MartinRepo/findu"
+keywords = ["cli", "fortune", "tech", "daily"]
 categories = ["command-line-utilities"]
 
 [dependencies]
 clap = { version = "4.0", features = ["derive"] }
 anyhow = "1.0"
-log = "0.4.27"
-env_logger = "0.11.8"
+chrono = { version = "0.4", features = ["serde"] }
+rand = "0.8"
+colored = "2.0"
+dirs = "5.0"
 
 [dev-dependencies]
 assert_cmd = "2.0.14"
@@ -23,5 +25,5 @@ predicates = "3.1.0"
 assert_fs = "1.1.1"
 
 [lib]
-name = "grrs"
+name = "findu"
 path = "src/lib.rs"

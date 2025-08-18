@@ -1,41 +1,66 @@
-use assert_cmd::prelude::*; // Add methods on commands
-use predicates::prelude::*; // Used for writing assertions
-use std::process::Command; // Run programs
-// use assert_fs::prelude::*;
-use assert_fs::fixture::FileWriteStr;
-use std::io::Cursor;
+use assert_cmd::prelude::*;
+use predicates::prelude::*;
+use std::process::Command;
 
 #[test]
-fn find_a_match() {
-    let mut result = Vec::new();
-    let input = "lorem ipsum\ndolor sit amet";
-    let cursor = Cursor::new(input);
-    grrs::find_matches(cursor, "lorem", &mut result);
-    assert_eq!(result, b"lorem ipsum\n");
-}
-
-#[test]
-fn file_doesnt_exist() -> Result<(), Box<dyn std::error::Error>> {
-    let mut cmd = Command::cargo_bin("grrs")?;
-
-    cmd.arg("foobar").arg("test/file/doesnt/exist");
+fn test_basic_fortune_output() -> Result<(), Box<dyn std::error::Error>> {
+    let mut cmd = Command::cargo_bin("findu")?;
+    
     cmd.assert()
-        .failure()
-        .stderr(predicate::str::contains("could not read file"));
+        .success()
+        .stdout(predicate::str::contains("Fortune Score"))
+        .stdout(predicate::str::contains("Today's Advice"));
 
     Ok(())
 }
 
 #[test]
-fn find_content_in_file() -> Result<(), Box<dyn std::error::Error>> {
-    let file = assert_fs::NamedTempFile::new("sample.txt")?;
-    file.write_str("A test\nActual content\nMore content\nAnother test")?;
-
-    let mut cmd = Command::cargo_bin("grrs")?;
-    cmd.arg("test").arg(file.path());
+fn test_verbose_output() -> Result<(), Box<dyn std::error::Error>> {
+    let mut cmd = Command::cargo_bin("findu")?;
+    
+    cmd.arg("--verbose");
     cmd.assert()
         .success()
-        .stdout(predicate::str::contains("A test\nAnother test"));
+        .stdout(predicate::str::contains("Findu"))
+        .stdout(predicate::str::contains("版本"));
+
+    Ok(())
+}
+
+#[test]
+fn test_language_option() -> Result<(), Box<dyn std::error::Error>> {
+    let mut cmd = Command::cargo_bin("findu")?;
+    
+    cmd.arg("--language").arg("en");
+    cmd.assert()
+        .success()
+        .stdout(predicate::str::contains("Fortune Score"))
+        .stdout(predicate::str::contains("Today's Advice"));
+
+    Ok(())
+}
+
+#[test]
+fn test_invalid_language() -> Result<(), Box<dyn std::error::Error>> {
+    let mut cmd = Command::cargo_bin("findu")?;
+    
+    cmd.arg("--language").arg("invalid");
+    cmd.assert()
+        .failure()
+        .stderr(predicate::str::contains("Invalid language option"));
+
+    Ok(())
+}
+
+#[test]
+fn test_help_output() -> Result<(), Box<dyn std::error::Error>> {
+    let mut cmd = Command::cargo_bin("findu")?;
+    
+    cmd.arg("--help");
+    cmd.assert()
+        .success()
+        .stdout(predicate::str::contains("findu"))
+        .stdout(predicate::str::contains("显示今日技术工作运势"));
 
     Ok(())
 }
