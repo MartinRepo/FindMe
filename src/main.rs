@@ -1,28 +1,36 @@
 use anyhow::Result;
 use clap::Parser;
 use std::fs;
-use findu::{display_fortune, generate_daily_fortune, get_language_choice, Language};
+use findu::{display_fortune, generate_daily_fortune, get_language_choice, Language, BirthFortuneController, i18n};
 
 #[derive(Parser)]
 #[command(name = "findu")]
-#[command(about = "显示今日技术工作运势 / Show today's tech work fortune")]
+#[command(about = "Show today's tech work fortune")]
 #[command(version)]
 struct Cli {
-    /// 显示详细帮助信息 / Show verbose help information
+    /// Show verbose help information
     #[arg(short, long)]
     verbose: bool,
     
-    /// 指定日期 (格式: YYYY-MM-DD) / Specify date (format: YYYY-MM-DD)
+    /// Specify date (format: YYYY-MM-DD)
     #[arg(short, long)]
     date: Option<String>,
     
-    /// 语言选择 / Language selection (zh/en)
+    /// Language selection (zh/en)
     #[arg(short, long)]
     language: Option<String>,
     
-    /// 设置语言 / Set language
+    /// Set language
     #[arg(long)]
     set_language: bool,
+    
+    /// Birth date fortune analysis
+    #[arg(short, long)]
+    birth: bool,
+    
+    /// Birth date (format: YYYY-MM-DD)
+    #[arg(long)]
+    birth_date: Option<String>,
 }
 
 fn get_config_dir() -> std::path::PathBuf {
@@ -67,56 +75,89 @@ fn save_language(lang: Language) -> Result<()> {
 
 fn parse_language(lang_str: &str) -> Option<Language> {
     match lang_str.to_lowercase().as_str() {
-        "zh" | "chinese" | "中文" => Some(Language::Chinese),
-        "en" | "english" | "英文" => Some(Language::English),
-        _ => None,
+        "zh" | "chinese" => Some(Language::Chinese),
+        "en" | "english" => Some(Language::English),
+        _ => {
+            // Check against i18n translations
+            if lang_str == i18n("lang.chinese", Language::Chinese) {
+                Some(Language::Chinese)
+            } else if lang_str == i18n("lang.english", Language::Chinese) {
+                Some(Language::English)
+            } else {
+                None
+            }
+        }
     }
 }
 
 fn main() -> Result<()> {
     let args = Cli::parse();
     
-    if args.verbose {
-        println!("🎯 Findu - 技术工作运势预测工具");
-        println!("Findu - Tech Work Fortune Prediction Tool");
-        println!("版本 / Version: {}", env!("CARGO_PKG_VERSION"));
-        println!("作者 / Author: {}", env!("CARGO_PKG_AUTHORS"));
-        println!();
-    }
-    
-    // 处理语言设置
+    // Handle language setting
     if args.set_language {
         let lang = get_language_choice();
         save_language(lang)?;
         match lang {
-            Language::Chinese => println!("✅ 语言已设置为中文"),
-            Language::English => println!("✅ Language set to English"),
+            Language::Chinese => println!("{}", i18n("language.set_chinese", lang)),
+            Language::English => println!("{}", i18n("language.set_english", lang)),
         }
         return Ok(());
     }
     
-    // 确定使用的语言
+    // Determine language to use
     let language = if let Some(lang_str) = args.language {
         parse_language(&lang_str).unwrap_or_else(|| {
-            eprintln!("❌ 无效的语言选项 / Invalid language option: {}", lang_str);
-            eprintln!("请使用: zh/en / Please use: zh/en");
+            eprintln!("{}", i18n("language.invalid_option", Language::Chinese).replace("{}", &lang_str));
+            eprintln!("{}", i18n("language.use_zh_en", Language::Chinese));
             std::process::exit(1);
         })
     } else {
         load_language().unwrap_or_else(|| {
-            println!("🌍 首次使用，请选择语言 / First time use, please select language:");
+            println!("{}", i18n("language.first_time", Language::Chinese));
             let lang = get_language_choice();
             if let Err(e) = save_language(lang) {
-                eprintln!("⚠️ 无法保存语言设置 / Cannot save language setting: {}", e);
+                eprintln!("{}", i18n("language.cannot_save", Language::Chinese).replace("{}", &e.to_string()));
             }
             lang
         })
     };
     
-    // 生成今日运势
+    if args.verbose {
+        println!("🎯 Findu - {}", i18n("app.title", language));
+        println!("Version: {}", env!("CARGO_PKG_VERSION"));
+        println!("Author: {}", env!("CARGO_PKG_AUTHORS"));
+        println!();
+    }
+    
+    // Handle birth date fortune analysis
+    if args.birth {
+        if let Some(birth_date_str) = args.birth_date {
+            match BirthFortuneController::validate_birth_date(&birth_date_str) {
+                Ok(birth_date) => {
+                    let fortune = findu::BirthFortuneModel::calculate_fortune(&birth_date, language);
+                    findu::BirthFortuneView::display_birth_fortune(&fortune, &birth_date, language);
+                },
+                Err(e) => {
+                    eprintln!("{}", i18n("birth.date_format_error_cli", language).replace("{}", &e));
+                    std::process::exit(1);
+                }
+            }
+        } else {
+            match BirthFortuneController::process_birth_fortune(language) {
+                Ok(_) => {},
+                Err(e) => {
+                    eprintln!("{}", i18n("birth.processing_error", language).replace("{}", &e));
+                    std::process::exit(1);
+                }
+            }
+        }
+        return Ok(());
+    }
+    
+    // Generate daily fortune
     let fortune = generate_daily_fortune(language);
     
-    // 显示运势
+    // Display fortune
     display_fortune(&fortune, language);
     
     Ok(())
