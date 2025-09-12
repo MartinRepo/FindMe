@@ -1,41 +1,37 @@
 use anyhow::Result;
 use clap::Parser;
+use findme::{
+    analyze_dev_pressure, display_dev_pressure, display_fortune, get_language_choice, i18n,
+    Language,
+};
 use std::fs;
-use findu::{display_fortune, generate_daily_fortune, get_language_choice, Language, BirthFortuneController, i18n};
 
 #[derive(Parser)]
-#[command(name = "findu")]
-#[command(about = "Show today's tech work fortune")]
+#[command(name = "findme")]
+#[command(
+    about = "Developer's Daily Decompression Oracle - Tech dimension analysis with deterministic daily variations"
+)]
 #[command(version)]
 struct Cli {
-    /// Show verbose help information
     #[arg(short, long)]
     verbose: bool,
-    
-    /// Specify date (format: YYYY-MM-DD)
-    #[arg(short, long)]
-    date: Option<String>,
-    
-    /// Language selection (zh/en)
+
     #[arg(short, long)]
     language: Option<String>,
-    
-    /// Set language
+
     #[arg(long)]
     set_language: bool,
-    
-    /// Birth date fortune analysis
+
     #[arg(short, long)]
-    birth: bool,
-    
-    /// Birth date (format: YYYY-MM-DD)
+    birthday: Option<String>,
+
     #[arg(long)]
-    birth_date: Option<String>,
+    pressure: bool,
 }
 
 fn get_config_dir() -> std::path::PathBuf {
     let mut config_dir = dirs::home_dir().unwrap_or_else(|| std::path::PathBuf::from("."));
-    config_dir.push(".findu");
+    config_dir.push(".findme");
     config_dir
 }
 
@@ -63,7 +59,7 @@ fn save_language(lang: Language) -> Result<()> {
     if !config_dir.exists() {
         fs::create_dir_all(&config_dir)?;
     }
-    
+
     let config_file = get_config_file();
     let content = match lang {
         Language::Chinese => "zh",
@@ -92,8 +88,7 @@ fn parse_language(lang_str: &str) -> Option<Language> {
 
 fn main() -> Result<()> {
     let args = Cli::parse();
-    
-    // Handle language setting
+
     if args.set_language {
         let lang = get_language_choice();
         save_language(lang)?;
@@ -103,11 +98,13 @@ fn main() -> Result<()> {
         }
         return Ok(());
     }
-    
-    // Determine language to use
+
     let language = if let Some(lang_str) = args.language {
         parse_language(&lang_str).unwrap_or_else(|| {
-            eprintln!("{}", i18n("language.invalid_option", Language::Chinese).replace("{}", &lang_str));
+            eprintln!(
+                "{}",
+                i18n("language.invalid_option", Language::Chinese).replace("{}", &lang_str)
+            );
             eprintln!("{}", i18n("language.use_zh_en", Language::Chinese));
             std::process::exit(1);
         })
@@ -116,49 +113,46 @@ fn main() -> Result<()> {
             println!("{}", i18n("language.first_time", Language::Chinese));
             let lang = get_language_choice();
             if let Err(e) = save_language(lang) {
-                eprintln!("{}", i18n("language.cannot_save", Language::Chinese).replace("{}", &e.to_string()));
+                eprintln!(
+                    "{}",
+                    i18n("language.cannot_save", Language::Chinese).replace("{}", &e.to_string())
+                );
             }
             lang
         })
     };
-    
+
     if args.verbose {
-        println!("🎯 Findu - {}", i18n("app.title", language));
+        println!("🎯 Findme - {}", i18n("app.title", language));
         println!("Version: {}", env!("CARGO_PKG_VERSION"));
         println!("Author: {}", env!("CARGO_PKG_AUTHORS"));
         println!();
     }
-    
-    // Handle birth date fortune analysis
-    if args.birth {
-        if let Some(birth_date_str) = args.birth_date {
-            match BirthFortuneController::validate_birth_date(&birth_date_str) {
-                Ok(birth_date) => {
-                    let fortune = findu::BirthFortuneModel::calculate_fortune(&birth_date, language);
-                    findu::BirthFortuneView::display_birth_fortune(&fortune, &birth_date, language);
-                },
-                Err(e) => {
-                    eprintln!("{}", i18n("birth.date_format_error_cli", language).replace("{}", &e));
-                    std::process::exit(1);
-                }
-            }
-        } else {
-            match BirthFortuneController::process_birth_fortune(language) {
-                Ok(_) => {},
-                Err(e) => {
-                    eprintln!("{}", i18n("birth.processing_error", language).replace("{}", &e));
-                    std::process::exit(1);
-                }
+
+    let fortune = if let Some(birthday_str) = &args.birthday {
+        if chrono::NaiveDate::parse_from_str(birthday_str, "%Y-%m-%d").is_err() {
+            eprintln!(
+                "Invalid birthday format: {}. Please use YYYY-MM-DD format",
+                birthday_str
+            );
+            std::process::exit(1);
+        }
+        findme::generate_daily_fortune_with_birthday(birthday_str, language)
+    } else {
+        findme::generate_daily_fortune(language)
+    };
+
+    display_fortune(&fortune, language);
+
+    if args.pressure {
+        match analyze_dev_pressure(language) {
+            Ok(pressure) => display_dev_pressure(&pressure, language),
+            Err(e) => {
+                eprintln!("⚠️ Failed to analyze developer pressure: {}", e);
+                eprintln!("💡 Make sure you're in a git repository and have cargo available");
             }
         }
-        return Ok(());
     }
-    
-    // Generate daily fortune
-    let fortune = generate_daily_fortune(language);
-    
-    // Display fortune
-    display_fortune(&fortune, language);
-    
+
     Ok(())
 }

@@ -1,4 +1,4 @@
-use crate::utils::{Language, i18n};
+use crate::utils::{i18n, Language};
 use std::io::Write;
 
 pub fn get_language_choice() -> Language {
@@ -6,14 +6,14 @@ pub fn get_language_choice() -> Language {
     println!("{}", i18n("language.chinese", Language::Chinese));
     println!("{}", i18n("language.english", Language::Chinese));
     println!();
-    
+
     loop {
         print!("{}", i18n("language.enter_choice", Language::Chinese));
         std::io::stdout().flush().unwrap();
-        
+
         let mut input = String::new();
         std::io::stdin().read_line(&mut input).unwrap();
-        
+
         match input.trim() {
             "1" | "chinese" => return Language::Chinese,
             "2" | "english" | "English" => return Language::English,

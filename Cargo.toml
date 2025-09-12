@@ -1,13 +1,13 @@
 [package]
-name = "findu"
-version = "0.1.0"
+name = "findme"
+version = "0.3.1"
 edition = "2021"
 authors = ["chi.xing2025@gmail.com"]
-license = "MIT OR Apache-2.0"
+license = "Apache-2.0"
 description = "A terminal tool to show daily tech work fortune"
 readme = "README.md"
-homepage = "https://github.com/MartinRepo/findu"
-repository = "https://github.com/MartinRepo/findu"
+homepage = "https://github.com/MartinRepo/findme"
+repository = "https://github.com/MartinRepo/findme"
 keywords = ["cli", "fortune", "tech", "daily"]
 categories = ["command-line-utilities"]
 
@@ -16,8 +16,13 @@ clap = { version = "4.0", features = ["derive"] }
 anyhow = "1.0"
 chrono = { version = "0.4", features = ["serde"] }
 rand = "0.8"
+rand_chacha = "0.3"
 colored = "2.0"
 dirs = "5.0"
+sha2 = "0.10"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tinytemplate = "1.2"
 
 [dev-dependencies]
 assert_cmd = "2.0.14"
@@ -25,5 +30,9 @@ predicates = "3.1.0"
 assert_fs = "1.1.1"
 
 [lib]
-name = "findu"
+name = "findme"
 path = "src/lib.rs"
+
+[[bin]]
+name = "findme"
+path = "src/main.rs"

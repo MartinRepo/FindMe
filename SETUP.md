@@ -1,4 +1,4 @@
-# Findu Installation and Setup Guide
+# Findme Installation and Setup Guide
 
 [🇨🇳 简体中文安装指南 / Chinese Setup Guide](SETUP_CN.md)
 
@@ -9,7 +9,7 @@
 The tool has been installed to your system, you can use it directly:
 
 ```bash
-findu
+findme
 ```
 
 ### 2. Language Setup
@@ -28,10 +28,10 @@ You can also change the language setting anytime:
 
 ```bash
 # Set default language
-findu --set-language
+findme --set-language
 
 # Temporarily use different language
-findu --language en
+findme --language en
 ```
 
 ### 3. Setup Auto Display (Optional)
@@ -48,7 +48,7 @@ nano ~/.zshrc
 2. Add the following line at the end of the file:
 ```bash
 # Auto display tech fortune
-source /Users/martin/Develop/findu/auto-fortune.sh
+source /Users/martin/Develop/findme/auto-fortune.sh
 ```
 
 3. Save and reload the configuration:
@@ -66,7 +66,7 @@ nano ~/.bashrc
 2. Add the following line at the end of the file:
 ```bash
 # Auto display tech fortune
-source /Users/martin/Develop/findu/auto-fortune.sh
+source /Users/martin/Develop/findme/auto-fortune.sh
 ```
 
 3. Save and reload the configuration:
@@ -94,12 +94,12 @@ Reopen the terminal, you should see output similar to this:
 
 - **Once per day**: The script remembers that fortune has been displayed today, avoiding duplicate display
 - **Auto detection**: Automatically displays when opening terminal for the first time each day
-- **Manual call**: Can manually run `findu` anytime to view fortune
+- **Manual call**: Can manually run `findme` anytime to view fortune
 - **Multi-language support**: Supports Chinese and English, can switch anytime
 
 ## Language Configuration
 
-Language settings are saved in `~/.findu/config.txt`:
+Language settings are saved in `~/.findme/config.txt`:
 
 - `zh` - Chinese
 - `en` - English
@@ -118,7 +118,7 @@ If you want to stop auto display:
 
 If you encounter problems:
 
-1. Ensure the `findu` command can run normally
+1. Ensure the `findme` command can run normally
 2. Check if the script path is correct
 3. Ensure the script has execution permission: `chmod +x auto-fortune.sh`
-4. Check language configuration file: `cat ~/.findu/config.txt`
+4. Check language configuration file: `cat ~/.findme/config.txt`
