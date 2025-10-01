@@ -35,29 +35,8 @@ impl I18n {
             Language::English,
             "🎯 Developer's Daily Decompression Oracle",
         );
-
-        // Scenario indicators
-        self.add_translation(
-            "scenario.workday",
-            Language::Chinese,
-            "工作日模式 - 执行/交付",
-        );
-        self.add_translation(
-            "scenario.workday",
-            Language::English,
-            "Workday Mode - Execute/Deliver",
-        );
-
-        self.add_translation(
-            "scenario.weekend",
-            Language::Chinese,
-            "周末模式 - 学习/探索",
-        );
-        self.add_translation(
-            "scenario.weekend",
-            Language::English,
-            "Weekend Mode - Learn/Explore",
-        );
+        self.add_translation("app.welcome", Language::Chinese, "欢迎 {}!");
+        self.add_translation("app.welcome", Language::English, "Welcome {}!");
 
         // 开发者体感气压
         self.add_translation("pressure.title", Language::Chinese, "🔬 开发者体感气压");
