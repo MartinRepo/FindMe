@@ -1,10 +1,10 @@
 [package]
 name = "findme"
-version = "0.3.1"
+version = "0.4.0"
 edition = "2021"
 authors = ["chi.xing2025@gmail.com"]
 license = "Apache-2.0"
-description = "A terminal tool to show daily tech work fortune"
+description = "A tool to show daily tech work fortune"
 readme = "README.md"
 homepage = "https://github.com/MartinRepo/findme"
 repository = "https://github.com/MartinRepo/findme"
