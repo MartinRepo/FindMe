@@ -66,7 +66,7 @@ fn test_verbose_output_chinese() -> Result<(), Box<dyn std::error::Error>> {
     cmd.assert()
         .success()
         .stdout(predicate::str::contains("Findme"))
-        .stdout(predicate::str::contains("程序员今日解压占卜"));
+        .stdout(predicate::str::contains("今日技术运势预测"));
 
     temp_dir.close()?;
     Ok(())
