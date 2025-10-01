@@ -35,6 +35,8 @@ impl I18n {
             Language::English,
             "🎯 Developer's Daily Decompression Oracle",
         );
+        self.add_translation("app.welcome", Language::Chinese, "欢迎 {}!");
+        self.add_translation("app.welcome", Language::English, "Welcome {}!");
 
         // Scenario indicators
         self.add_translation(
