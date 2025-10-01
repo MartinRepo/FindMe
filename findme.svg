@@ -1,0 +1,58 @@
+<!-- File: logo.svg -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 140" role="img" aria-labelledby="title desc">
+  <title id="title">FindMe – Developer's Daily Decompression Oracle</title>
+  <desc id="desc">A minimal target icon with a terminal prompt and five orbiting dots, followed by the word FindMe in monospace.</desc>
+
+  <!-- ====== Styling ====== -->
+  <style>
+    :root { --accent: #22c55e; } /* Tailwind emerald-500 */
+    /* 线条与文字默认跟随 currentColor（GitHub 深浅色自适应） */
+    .stroke { stroke: currentColor; }
+    .fill   { fill: currentColor; }
+    .accent-fill { fill: var(--accent); }
+    .accent-stroke { stroke: var(--accent); }
+  </style>
+
+  <!-- ====== Left: Target + Terminal Prompt ====== -->
+  <g transform="translate(70,70)">
+    <!-- Target rings -->
+    <circle r="46" fill="none" class="stroke" stroke-width="4" />
+    <circle r="30" fill="none" class="stroke" stroke-width="4" opacity="0.9" />
+
+    <!-- Five orbiting dots = five tech dimensions -->
+    <circle r="3.5" cx="0" cy="-46" class="accent-fill"/>
+    <circle r="3.5" cx="43" cy="-15" class="accent-fill"/>
+    <circle r="3.5" cx="27" cy="38" class="accent-fill"/>
+    <circle r="3.5" cx="-27" cy="38" class="accent-fill"/>
+    <circle r="3.5" cx="-43" cy="-15" class="accent-fill"/>
+
+    <!-- Terminal prompt “>_” centered -->
+    <g transform="translate(0,2)">
+      <path d="M-14 -6 L-2 0 L-14 6" class="stroke" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="4" y="2.5" width="10" height="3" class="fill" rx="1.5" opacity="0.85"/>
+    </g>
+  </g>
+
+  <!-- ====== Divider (subtle) ====== -->
+  <line x1="140" y1="30" x2="140" y2="110" class="stroke" stroke-width="1.5" opacity="0.18"/>
+
+  <!-- ====== Right: Wordmark ====== -->
+  <g transform="translate(170,88)">
+    <text x="0" y="0"
+          font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace"
+          font-size="48"
+          class="fill"
+          letter-spacing="0.5">
+      Find<tspan class="accent-fill">Me</tspan>
+    </text>
+
+    <!-- tiny tagline (optional, comment out if not needed) -->
+    <text x="2" y="18"
+          font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace"
+          font-size="12"
+          opacity="0.55"
+          class="fill">
+      Developer’s Daily Decompression Oracle
+    </text>
+  </g>
+</svg>

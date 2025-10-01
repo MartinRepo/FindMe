@@ -1,4 +1,6 @@
-# Findme 🎯
+<p align="center">
+  <img src="findme.svg" width="360" alt="FindMe Logo">
+</p>
 
 <p align="center">
   <a href="https://github.com/MartinRepo/FindMe/releases/latest">
