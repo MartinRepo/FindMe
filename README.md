@@ -1,4 +1,6 @@
-# Findme 🎯
+<h1 align="center">
+🎯 FindMe
+</h1>
 
 <p align="center">
   <a href="https://github.com/MartinRepo/FindMe/releases/latest">
@@ -38,11 +40,6 @@ Findme analyzes your daily tech performance across five key dimensions:
 | **Collaboration** | Teamwork and communication effectiveness |
 | **Risk Tolerance** | Willingness to try new approaches |
 
-### Scenario-Based Weighting
-
-- **Workday Mode**: Focuses on execution and delivery (Focus 35%, Debugging 30%, Collaboration 25%, Creativity 7%, Risk 3%)
-- **Weekend Mode**: Emphasizes learning and exploration (Creativity 40%, Risk 30%, Focus 20%, Debugging 7%, Collaboration 3%)
-
 ## Installation
 
 ### From Source
@@ -64,7 +61,7 @@ cargo install --path .
 ### Basic Usage
 
 ```bash
-# Show today's tech fortune (auto-detects workday/weekend)
+# Show today's tech fortune
 findme
 
 # Show detailed information and today's fortune
@@ -101,28 +98,26 @@ findme --language en
 ```
 
 ### Example Output
-
-#### Workday Mode
 ```
 ============================================================
-🎯 Developer's Daily Decompression Oracle
-📅 Workday Mode - Execute/Deliver
+2025-10-01 · 🎯 Developer's Daily Decompression Oracle
+Welcome martin!
 ============================================================
 
-📊 Overall Score: 72
+📊 Overall Score: 66
 
 🎯 Tech Dimensions
-  🎯 Focus: ██████████████░░░░░░  74
-  💡 Creativity: ███████████████░░░░░  75
+  🎯 Focus: ████████████░░░░░░░░  63
+  💡 Creativity: ████████████░░░░░░░░  63
   🐛 Debugging: ████████████░░░░░░░░  63
-  🤝 Collaboration: ████████████████░░░░  84
-  ⚡ Risk Tolerance: ████░░░░░░░░░░░░░░░░  20
+  🤝 Collaboration: ███████████████░░░░░  78
+  ⚡ Risk Tolerance: ██████░░░░░░░░░░░░░░  34
 
-💬 Today's Status: 👍 Good state today
-💡 Tech Advice: High programming efficiency, but pay attention to code review, avoid small errors.
+💬 Today's Status: 😐 Average state today
+💡 Tech Advice: Write code carefully, avoid leaving hidden dangers.
 
-🎨 Recommended Color: Blue
-⏰ Best Time: 5-6 PM
+🎨 Recommended Color: Green
+⏰ Best Time: 2-4 PM
 
 ============================================================
 ```
@@ -130,40 +125,41 @@ findme --language en
 #### With Developer Pressure Index
 ```
 ============================================================
-🎯 Developer's Daily Decompression Oracle
-📅 Workday Mode - Execute/Deliver
+2025-10-01 · 🎯 Developer's Daily Decompression Oracle
+Welcome martin!
 ============================================================
 
-📊 Overall Score: 72
+📊 Overall Score: 66
 
 🎯 Tech Dimensions
-  🎯 Focus: ██████████████░░░░░░  74
-  💡 Creativity: ███████████████░░░░░  75
+  🎯 Focus: ████████████░░░░░░░░  63
+  💡 Creativity: ████████████░░░░░░░░  63
   🐛 Debugging: ████████████░░░░░░░░  63
-  🤝 Collaboration: ████████████████░░░░  84
-  ⚡ Risk Tolerance: ████░░░░░░░░░░░░░░░░  20
+  🤝 Collaboration: ███████████████░░░░░  78
+  ⚡ Risk Tolerance: ██████░░░░░░░░░░░░░░  34
 
-💬 Today's Status: 👍 Good state today
-💡 Tech Advice: High programming efficiency, but pay attention to code review, avoid small errors.
+💬 Today's Status: 😐 Average state today
+💡 Tech Advice: Write code carefully, avoid leaving hidden dangers.
 
-🎨 Recommended Color: Blue
-⏰ Best Time: 5-6 PM
+🎨 Recommended Color: Green
+⏰ Best Time: 2-4 PM
 
 ============================================================
+
 
 ============================================================
 🔬 Developer Pressure Index
 ============================================================
-🟡 Pressure Level Medium Pressure - Normal
+🟠 Pressure Level High Pressure - Stressed
 
 📊 Development Metrics
-  📝 Git Diff Lines 255 lines
-  🧪 Test Success Rate 100.0%
+  📝 Git Diff Lines 180 lines
+  🧪 Test Success Rate No tests yet
   ⚡ Build Time 0s
 
 💭 Today's Advice
-  ⚠️ Medium Risk Threshold - Proceed with caution
-  💡 Suggest improving existing features first, then consider new ones
+  ⚠️ High Risk Threshold - Prioritize fixing issues
+  💡 Suggest fixing test failures and build issues first
 ============================================================
 ```
 
