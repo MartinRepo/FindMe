@@ -29,7 +29,7 @@ impl I18n {
     }
 
     fn load_translations(&mut self) {
-        self.add_translation("app.title", Language::Chinese, "🎯 程序员今日解压占卜");
+        self.add_translation("app.title", Language::Chinese, "🎯 今日技术运势预测");
         self.add_translation(
             "app.title",
             Language::English,

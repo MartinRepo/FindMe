@@ -1,6 +1,19 @@
 # Findme 🎯
 
-[🇨🇳 简体中文](README_CN.md)
+<p align="center">
+  <a href="https://github.com/MartinRepo/FindMe/releases/latest">
+    <img alt="GitHub Release" src="https://img.shields.io/github/v/release/MartinRepo/FindMe.svg">
+  </a>
+  <a href="https://github.com/MartinRepo/FindMe/issues">
+    <img alt="GitHub issues" src="https://img.shields.io/github/issues/MartinRepo/FindMe?style=flat-square">
+  </a>
+  <a href="#">
+    <img alt="GitHub stars" src="https://img.shields.io/github/stars/MartinRepo/FindMe?style=flat-square">
+  </a>
+  <a href="https://github.com/MartinRepo/FindMe/network">
+    <img alt="GitHub forks" src="https://img.shields.io/github/forks/MartinRepo/FindMe?style=flat-square">
+  </a>
+</p>
 
 A fun terminal command-line tool that provides daily decompression fortune predictions for programmers and tech professionals.
 
@@ -8,25 +21,22 @@ A fun terminal command-line tool that provides daily decompression fortune predi
 
 - 🎯 **Programmer's Daily Decompression Oracle** - Tech dimension analysis with deterministic daily variations
 - 📊 **Tech Dimensions Scoring** - Five-dimensional analysis: Focus, Creativity, Debugging Touch, Collaboration Index, Risk Tolerance
-- 🏢 **Smart Scenario Detection** - Automatically adapts to workday (execution/delivery) vs weekend (learning/exploration) modes
-- 🎲 **Deterministic Generation** - Same birthday + same day = consistent results, but varies daily automatically
-- 🎨 **Colored Terminal Output** - Beautiful colored interface with dimension visualization bars
 - 💡 **Personalized Tech Advice** - Tailored recommendations based on your tech dimensions and current scenario
 - 🔬 **Developer Pressure Index** - Analyzes local git/test/build data for risk and patience thresholds
 - 🌍 **Multi-language Support** - Support for Chinese and English
-- 🔐 **Birthday-based Personalization** - Optional birthday input for personalized analysis
+- 💾 **Local Preferences Storage** - Remembers your saved language and birthday for future sessions
 
 ## Tech Dimensions
 
 Findme analyzes your daily tech performance across five key dimensions:
 
-| Dimension | Description | Workday Focus | Weekend Focus |
-|-----------|-------------|---------------|---------------|
-| 🎯 **Focus** | Concentration and attention to detail | High (40-100) | Medium (20-70) |
-| 💡 **Creativity** | Innovation and problem-solving ability | Medium (20-80) | High (60-100) |
-| 🐛 **Debugging** | Troubleshooting and error-fixing skills | High (50-100) | Medium (30-80) |
-| 🤝 **Collaboration** | Teamwork and communication effectiveness | High (60-100) | Low (10-50) |
-| ⚡ **Risk Tolerance** | Willingness to try new approaches | Low (10-60) | High (50-100) |
+| Dimension | Description |
+|-----------|-------------|
+| **Focus** | Concentration and attention to detail |
+| **Creativity** | Innovation and problem-solving ability |
+| **Debugging** | Troubleshooting and error-fixing skills |
+| **Collaboration** | Teamwork and communication effectiveness |
+| **Risk Tolerance** | Willingness to try new approaches |
 
 ### Scenario-Based Weighting
 
@@ -62,6 +72,7 @@ findme --verbose
 
 # Personalized analysis with birthday
 findme --birthday "1990-05-15"
+# The birthday will be cached locally for next time
 
 # Show developer pressure index (analyzes local git/test/build data)
 findme --pressure
@@ -156,47 +167,25 @@ findme --language en
 ============================================================
 ```
 
-## Technical Implementation
-
-- **Rust** - High-performance systems programming language
-- **clap** - Command line argument parsing
-- **chrono** - Date and time handling with weekday detection
-- **rand_chacha** - Deterministic random number generation using ChaCha20
-- **sha2** - SHA256 hashing for seed generation
-- **serde** - Serialization framework for future template system
-- **tinytemplate** - Template engine for dynamic content generation
-- **colored** - Terminal color output with dimension visualization
-- **dirs** - Configuration file path management
-
-## Fortune Algorithm
-
-Findme uses a deterministic algorithm that ensures consistency while providing daily variation:
-
-### Seed Generation
-```
-seed = SHA256(birthday_YYYYMMDD + today_YYYYMMDD + version + salt)
-```
-
-### Deterministic Properties
-- **Consistency**: Same birthday + same day = identical results
-- **Daily Variation**: Different results each day automatically
-- **Personalization**: Birthday input creates unique patterns
-- **Scenario Awareness**: Automatically detects workday vs weekend
-
-### Tech Dimension Generation
-- Uses `ChaCha20Rng::seed_from_u64()` for deterministic randomness
-- Scenario-biased ranges ensure realistic work patterns
-- Weighted scoring adapts to workday/weekend contexts
-
 ## Configuration
 
-Language settings are saved in `~/.findme/config.txt`:
-- `zh` - Chinese
-- `en` - English
+Preferences are saved in `~/.findme/config.txt` as simple key-value pairs:
+
+```
+language=en
+birthday=1990-05-15
+```
+
+- `language` is stored when you run `findme --set-language`
+- `birthday` is automatically saved the first time you pass `--birthday`
+
+To customize the location (for example in scripts or automated tests), set the
+`FINDME_CONFIG_DIR` environment variable to the directory where the config file
+should live.
 
 ## License
 
-MIT OR Apache-2.0
+[Apache-2.0](https://github.com/MartinRepo/FindMe/blob/main/LICENSE-APACHE)
 
 ## Contributing
 
