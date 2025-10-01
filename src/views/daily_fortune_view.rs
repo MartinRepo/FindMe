@@ -1,17 +1,26 @@
-use crate::models::{Fortune, WorkScenario};
-use crate::utils::{i18n, Language};
+use crate::models::Fortune;
+use crate::utils::{detect_user_name, i18n, Language};
+use chrono::Local;
 use colored::*;
 
 pub fn display_fortune(fortune: &Fortune, lang: Language) {
     println!();
     println!("{}", "=".repeat(60).cyan());
-    println!("{}", i18n("app.title", lang).bold().yellow());
+    let today = Local::now().format("%Y-%m-%d");
+    println!(
+        "{}",
+        format!("{} · {}", today, i18n("app.title", lang))
+            .bold()
+            .yellow()
+    );
 
-    let scenario_text = match fortune.scenario {
-        WorkScenario::Workday => i18n("scenario.workday", lang),
-        WorkScenario::Weekend => i18n("scenario.weekend", lang),
-    };
-    println!("{}", format!("📅 {}", scenario_text).color("bright_blue"));
+    let user_name = detect_user_name();
+    println!(
+        "{}",
+        i18n("app.welcome", lang)
+            .replace("{}", &user_name)
+            .color("bright_blue")
+    );
 
     println!("{}", "=".repeat(60).cyan());
     println!();
