@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="findme.svg" width="360" alt="FindMe Logo">
+  <img src="findme.svg" width="70%" alt="FindMe Logo">
 </p>
 
 <p align="center">
@@ -17,7 +17,7 @@
   </a>
 </p>
 
-A fun terminal command-line tool that provides daily decompression fortune predictions for programmers and tech professionals.
+A fun CLI that provides daily decompression fortune predictions for tech professionals.
 
 ## Features
 
